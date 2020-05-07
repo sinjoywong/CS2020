@@ -10,7 +10,35 @@
 
 ### 解法一：回文类型的一般解法：中心扩展法
 
-
+```java
+class Solution {
+    public String longestPalindrome(String s) {
+        int N = s.length();
+        if(s == "" || N == 0) return "";
+        int start = 0,end = 0;
+        for(int i=0;i<N;i++){
+            int lenABA = longestPalindromeBetween(s,i,i);
+            int lenABBA = longestPalindromeBetween(s,i,i+1);
+            int len = Math.max(lenABA,lenABBA);
+            if(len > end - start){
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.substring(start,end+1);
+    }
+    
+    public int longestPalindromeBetween(String s,int left,int right){
+        int L = left;
+        int R = right;
+        while(L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)){
+            L--;
+            R++;
+        }
+        return R - L + 1 - 2;
+    }
+}
+```
 
 ### 解法二：回文类型的第二种一般解法：翻转找匹配
 
@@ -19,6 +47,28 @@
 ### 解法三：
 
 
+
+## [344. 反转字符串](https://leetcode-cn.com/problems/reverse-string/)
+
+双指针思想，初始时分别指向头和尾，然后原地翻转即可。
+
+```java
+class Solution {
+    public void reverseString(char[] s) {
+        int N =s.length;
+        char tmp;
+        int left = 0;
+        int right = N-1;
+        while(left <= right){
+            tmp = s[right];
+            s[right] = s[left];
+            s[left] = tmp;
+            left++;
+            right--;
+        }
+    }
+}
+```
 
 # 链表
 
@@ -493,16 +543,10 @@ public void dfs(char[][] board,int x,int y,int M,int N){
     dfs(board,x,y-1,M,N);
 }
 ```
-}
-
 作者：sinjoywong
 链接：https://leetcode-cn.com/problems/surrounded-regions/solution/dfs-bei-bao-wei-zen-yao-gao-fan-bao-wei-by-sinjoyw/
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-
-
-
-
 
 # 动态规划
 
@@ -558,8 +602,6 @@ class Solution {
     }
 }
 ```
-
-
 
 # 滑动窗口
 
